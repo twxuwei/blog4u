@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: local
 server:
   port: 8081
   servlet:

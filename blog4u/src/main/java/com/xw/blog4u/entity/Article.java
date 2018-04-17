@@ -27,13 +27,13 @@ public class Article {
      * markdown源文件
      */
     @Lob
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition="LONGTEXT")
     private String mdContent;
     /**
      * html源文件
      */
     @Lob
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition="LONGTEXT")
     private String htmlContent;
     /**
      * 概要

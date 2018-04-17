@@ -12,6 +12,7 @@ import com.xw.blog4u.entity.User;
 import com.xw.blog4u.exception.ServiceException;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -37,6 +42,12 @@ public class ArticleService {
     private CategoryDao categoryDao;
     @Autowired
     private TagDao tagDao;
+
+    @Value("${images.url}")
+    private String url;
+
+    @Value("${images.path}")
+    private String filepath;
 
     private final static String COMMA = ",";
 
@@ -104,7 +115,7 @@ public class ArticleService {
     public void saveTags(String articleId, String[] tags) {
         tagDao.deleteAllByArticleId(articleId);
         for (int i = 0; i < tags.length; i++) {
-            if(tagDao.findByTagName(tags[i]) == null){
+            if (tagDao.findByTagName(tags[i]) == null) {
                 Tag tag = new Tag();
                 tag.setTagName(tags[i]);
                 tag.setArticleId(articleId);
@@ -139,7 +150,7 @@ public class ArticleService {
     public Article getOneArticle(String id) {
         Article article = articleDao.findById(id).get();
         article.setTags(tagDao.findByArticleId(id));
-        article.setPageView(article.getPageView()+1);
+        article.setPageView(article.getPageView() + 1);
         articleDao.save(article);
         return article;
     }
@@ -175,20 +186,47 @@ public class ArticleService {
      * @return
      */
     public String uploadFile(MultipartFile file) {
-        String fileName = file.getOriginalFilename();
-        String path = "F:/test";
-        File dest = new File(path + "/" + fileName);
-        //判断文件父目录是否存在
-        if (!dest.getParentFile().exists()) {
-            dest.getParentFile().mkdir();
-        }
         try {
-            //保存文件
-            file.transferTo(dest);
-            return "success";
+            byte[] bytes = file.getBytes();
+            String filename = file.getOriginalFilename();
+            Path path = Paths.get(filepath + filename);
+            Files.write(path, bytes);
+            return url+filename;
+
         } catch (Exception e) {
             throw new ServiceException("upload failed");
         }
+    }
+
+    public void downloadFile(String filename,HttpServletResponse resp) {
+        File file = new File(filepath+filename);
+        resp.setHeader("content-type", "application/octet-stream");
+        resp.setContentType("application/octet-stream");
+        resp.setHeader("Content-Disposition", "attachment;filename=" + filename);
+        byte[] buff = new byte[1024];
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        try {
+            os = resp.getOutputStream();
+            bis = new BufferedInputStream(new FileInputStream(file));
+            int i = bis.read(buff);
+            while (i != -1) {
+                os.write(buff, 0, buff.length);
+                os.flush();
+                i = bis.read(buff);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
 }

@@ -61,7 +61,7 @@ public class CommHandler {
         visitor.setRequestTime(new SimpleDateFormat("yyyy MM:dd HH:mm:ss").format(new Date(startTime)));
         visitor.setTimeCost(timeCost);
 
-        visitorDao.save(visitor);
+//        visitorDao.save(visitor);
         return commResp;
     }
 }
