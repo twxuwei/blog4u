@@ -161,7 +161,7 @@ public class ArticleService {
             }
             return "success";
         }
-        Article article = getOneArticle(id);
+        Article article = articleDao.findById(id).get();
         article.setState(2);
         article.setStateStr(2 + "");
         articleDao.save(article);

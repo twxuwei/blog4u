@@ -55,7 +55,7 @@ public class Article {
      * 状态 0表示草稿箱，1表示已发表，2表示已删除
      */
     private Integer state;
-    private Integer pageView;
+    private Integer pageView = 0;
     /**
      * 编辑时间
      */

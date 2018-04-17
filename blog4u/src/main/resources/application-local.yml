@@ -10,6 +10,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+#  data:
+#      mongodb:
+#        uri:  mongodb://localhost:27017/visitor
 ## Redis 配置(默认配置)
 #  redis:
 #    # Redis 数据库索引（默认为0）
