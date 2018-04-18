@@ -131,7 +131,7 @@ public class ArticleService {
      * @param count 数量
      * @return
      */
-    public List<Article> getAllArticles(int page, int count) {
+    public List<Article> getPageableArticles(int page, int count) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page - 1, count, sort);
         List<Article> result = articleDao.findByState(pageable, 1).getContent();
@@ -139,6 +139,14 @@ public class ArticleService {
             article.setTags(tagDao.findByArticleId(article.getId()));
         }
         return result;
+    }
+
+    /**
+     * 展示给博客前端页面
+     * @return
+     */
+    public List<Article> getAllArticles(){
+        return articleDao.findAllByState(1);
     }
 
     /**

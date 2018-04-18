@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @author xuwei
  * @date 2018/4/12
@@ -17,4 +19,11 @@ public interface ArticleDao extends JpaRepository<Article,String> {
      * @return
      */
     Page<Article> findByState(Pageable pageable,int state);
+
+    /**
+     * 查询所有文章
+     * @param state 状态
+     * @return
+     */
+    List<Article> findAllByState(int state);
 }

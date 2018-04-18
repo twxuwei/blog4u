@@ -4,6 +4,7 @@ import com.xw.blog4u.common.CommResp;
 import com.xw.blog4u.dao.VisitorDao;
 import com.xw.blog4u.entity.Visitor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -60,8 +61,13 @@ public class CommHandler {
         visitor.setUri(url);
         visitor.setRequestTime(new SimpleDateFormat("yyyy MM:dd HH:mm:ss").format(new Date(startTime)));
         visitor.setTimeCost(timeCost);
+        if(null != SecurityUtils.getSubject().getPrincipal()){
+            visitor.setUsername(SecurityUtils.getSubject().getPrincipal().toString());
+        }else{
+            visitor.setUsername("visitor");
+        }
 
-//        visitorDao.save(visitor);
+        visitorDao.save(visitor);
         return commResp;
     }
 }

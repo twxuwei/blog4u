@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 
 /**
  * @author xuwei
@@ -33,8 +32,20 @@ public class ArticleController {
 
     @GetMapping("/{page}/{count}")
     @ApiOperation(value = "get pageable articles")
-    public CommResp getAllArticles(@PathVariable int page, @PathVariable int count) {
-        return CommRespUtil.responseOk(articleService.getAllArticles(page, count));
+    public CommResp getPageableArticles(@PathVariable int page, @PathVariable int count) {
+        return CommRespUtil.responseOk(articleService.getPageableArticles(page, count));
+    }
+
+    @GetMapping("/view")
+    @ApiOperation(value = "get all articles")
+    public CommResp getAllArticles() {
+        return CommRespUtil.responseOk(articleService.getAllArticles());
+    }
+
+    @GetMapping("/detail/{id}")
+    @ApiOperation(value = "get an article")
+    public CommResp getOneArticleDetail(@PathVariable String id) {
+        return CommRespUtil.responseOk(articleService.getOneArticle(id));
     }
 
     @GetMapping("/{id}")

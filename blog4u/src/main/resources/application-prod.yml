@@ -12,5 +12,5 @@ spring:
     mongodb:
       uri:  mongodb://172.16.157.59:27017/visitor
 images:
-  url: http://47.98.217.105:8081/blog/articles/img/
+  url: http://47.98.217.105:8081/blog/articles/img?filename=
   path: /usr/lib/jvm/images/
