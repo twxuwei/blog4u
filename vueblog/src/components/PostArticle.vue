@@ -137,7 +137,7 @@
           var json = resp.data;
           if (json.status == 'OK') {
 //            _this.$refs.md.$imgUpdateByUrl(pos, json.msg)
-            _this.$refs.md.$imglst2Url([[pos, json.msg]])
+            _this.$refs.md.$imglst2Url([[pos, json.result]])
           } else {
             _this.$message({type: json.status, message: json.result});
           }

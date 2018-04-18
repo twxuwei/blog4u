@@ -8,17 +8,48 @@ import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
+import VisitorBlogList from '@/components/VisitorBlogList'
+import VisitorTable from '@/components/VisitorTable'
+import VisitorDetail from '@/components/VisitorDetail'
 
 Vue.use(Router)
 
 export default new Router({
+  // mode : 'history',
+  // base: '/blog4u/',
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: '登录',
       hidden: true,
       component: Login
-    }, {
+    },
+    {
+      path: '/',
+      name: '展示博客',
+      hidden: true,
+      component: VisitorBlogList,
+      children:[
+        {
+          path: '/visitorTable',
+          name: '博客',
+          component: VisitorTable,
+          hidden: true,
+          meta: {
+            keepAlive: false
+          }
+        }
+      ]
+    },
+    {
+      path: '/visitorDetail',
+      name: '博客详情',
+      component: VisitorDetail,
+      hidden: true,
+      meta: {
+        keepAlive: false
+      }
+    },{
       path: '/home',
       name: '',
       component: Home,

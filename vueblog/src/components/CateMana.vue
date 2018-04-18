@@ -66,7 +66,7 @@
         postRequest('/categories/', this.cateName).then(resp=> {
           if (resp.status == 200) {
             var json = resp.data;
-            _this.$message({type: json.status, message: json.msg});
+            _this.$message({type: json.status, message: json.status});
             _this.cateName = '';
             _this.refresh();
           }

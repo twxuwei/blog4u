@@ -19,7 +19,7 @@
           </el-button>
         </div>
         <div>
-          <div><img :src="user.userface" :alt="user.nickname" style="width: 70px;height: 70px"></div>
+          <div><img :src="user.userFace" :alt="user.nickname" style="width: 70px;height: 70px"></div>
           <div style="text-align: left;color:#20a0ff;font-size: 12px;margin-top: 13px">
             <span>用户名:</span><span>{{user.username}}</span>
           </div>
