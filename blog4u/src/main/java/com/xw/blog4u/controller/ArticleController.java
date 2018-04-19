@@ -36,6 +36,12 @@ public class ArticleController {
         return CommRespUtil.responseOk(articleService.getPageableArticles(page, count));
     }
 
+    @GetMapping("/{page}/{count}/{categoryName}")
+    @ApiOperation(value = "get pageable articles by category")
+    public CommResp getPageableArticlesByCategory(@PathVariable int page, @PathVariable int count, @PathVariable String categoryName) {
+        return CommRespUtil.responseOk(articleService.getPageableArticlesByCategory(page, count,categoryName));
+    }
+
     @GetMapping("/view")
     @ApiOperation(value = "get all articles")
     public CommResp getAllArticles() {
@@ -67,8 +73,13 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/img")
-    public void testDownload(@RequestParam String filename, HttpServletResponse resp){
-        articleService.downloadFile(filename,resp);
+    public void testDownload(@RequestParam String filename, HttpServletResponse resp) {
+        articleService.downloadFile(filename, resp);
+    }
+
+    @GetMapping(value = "/tags")
+    public CommResp getAllTags() {
+        return CommRespUtil.responseOk(articleService.getAllTags());
     }
 
 }

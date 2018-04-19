@@ -21,6 +21,14 @@ public interface ArticleDao extends JpaRepository<Article,String> {
     Page<Article> findByState(Pageable pageable,int state);
 
     /**
+     * 根据栏目名称查找
+     * @param pageable
+     * @param state
+     * @param cateName
+     * @return
+     */
+    Page<Article> findByStateAndCateName(Pageable pageable,int state,String cateName);
+    /**
      * 查询所有文章
      * @param state 状态
      * @return

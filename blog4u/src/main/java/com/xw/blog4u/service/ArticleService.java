@@ -142,6 +142,23 @@ public class ArticleService {
     }
 
     /**
+     * 根据栏目名查找
+     * @param page
+     * @param count
+     * @param categoryName
+     * @return
+     */
+    public List<Article> getPageableArticlesByCategory(int page, int count,String categoryName) {
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(page - 1, count, sort);
+        List<Article> result = articleDao.findByStateAndCateName(pageable, 1,categoryName).getContent();
+        for (Article article : result) {
+            article.setTags(tagDao.findByArticleId(article.getId()));
+        }
+        return result;
+    }
+
+    /**
      * 展示给博客前端页面
      * @return
      */
@@ -206,6 +223,11 @@ public class ArticleService {
         }
     }
 
+    /**
+     * 图片下载
+     * @param filename
+     * @param resp
+     */
     public void downloadFile(String filename,HttpServletResponse resp) {
         File file = new File(filepath+filename);
         resp.setHeader("content-type", "application/octet-stream");
@@ -235,6 +257,10 @@ public class ArticleService {
             }
         }
 
+    }
+
+    public List<Tag> getAllTags(){
+        return tagDao.findAll();
     }
 
 }
