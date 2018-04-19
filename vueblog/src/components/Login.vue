@@ -12,9 +12,6 @@
     <el-form-item style="width: 100%">
       <el-button type="primary" @click.native.prevent="submitClick" style="width: 100%">登录</el-button>
     </el-form-item>
-    <el-form-item style="width: 100%">
-      <el-button type="primary" @click.native.prevent="visitorSubmitClick" style="width: 100%">游客访问</el-button>
-    </el-form-item>
   </el-form>
 </template>
 <script>
@@ -60,11 +57,6 @@
           _this.loading = false;
           _this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
         });
-      },
-      visitorSubmitClick: function () {
-        var _this = this;
-        this.loading = false;
-        _this.$router.replace({path: '/'});
       },
     }
   }

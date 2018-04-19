@@ -8,9 +8,12 @@ import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
-import VisitorBlogList from '@/components/VisitorBlogList'
-import VisitorTable from '@/components/VisitorTable'
-import VisitorDetail from '@/components/VisitorDetail'
+
+import Blog from '@/views/Blog'
+import Index from '@/views/Index'
+import About from '@/views/About'
+import Article from '@/views/Article'
+import Messages from '@/views/Messages'
 
 Vue.use(Router)
 
@@ -19,36 +22,40 @@ export default new Router({
   // base: '/blog4u/',
   routes: [
     {
+      path: '/',
+      name: 'Index',
+      hidden: true,
+      component: Index
+    },
+    {
+      path: '/blog',
+      name: 'Blog',
+      hidden: true,
+      component: Blog
+    },
+    {
+      path: '/about',
+      name: 'About',
+      hidden: true,
+      component: About
+    },
+    {
+      path: '/article',
+      name: 'Article',
+      hidden: true,
+      component: Article
+    },
+    {
+      path: '/messages',
+      name: 'Messages',
+      hidden: true,
+      component: Messages
+    },
+    {
       path: '/login',
       name: '登录',
       hidden: true,
       component: Login
-    },
-    {
-      path: '/',
-      name: '展示博客',
-      hidden: true,
-      component: VisitorBlogList,
-      children:[
-        {
-          path: '/visitorTable',
-          name: '博客',
-          component: VisitorTable,
-          hidden: true,
-          meta: {
-            keepAlive: false
-          }
-        }
-      ]
-    },
-    {
-      path: '/visitorDetail',
-      name: '博客详情',
-      component: VisitorDetail,
-      hidden: true,
-      meta: {
-        keepAlive: false
-      }
     },{
       path: '/home',
       name: '',
