@@ -4,7 +4,7 @@
     <div class="headpic">
       <div class="container headtitle full">
         <div class="title">
-          <h1 href="/blog">Chunibyo</h1>
+          <h1 href="/blog">Blog4U</h1>
         </div>
       </div>
     </div>
@@ -15,10 +15,10 @@
             <div class="messages-text post-content">
               <div style="overflow:hidden;margin-bottom:20px;">
                 <h3 class="hestia-title text-center">Leave a Reply</h3>
-                <textarea ref='textBox' spellcheck='false' row="1" placeholder="咱们交♂流交♂流~~" v-model="message" class="msg-content" cols="45" rows="8" aria-required="true"></textarea>
+                <textarea ref='textBox' spellcheck='false' row="1" placeholder="留下宝贵意见..." v-model="message" class="msg-content" cols="45" rows="8" aria-required="true"></textarea>
                 <div class="input">
-                  <input type="text" placeholder="起个名吧" v-model.trim="name" class="msg-name">
-                  <input type="email" placeholder="你的邮箱哦" v-model.trim="email" class="msg-email">
+                  <input type="text" placeholder="请输入昵称" v-model.trim="name" class="msg-name">
+                  <input type="email" placeholder="请输入邮箱" v-model.trim="email" class="msg-email">
                 </div>
                 <span>{{status}}</span>
                 <br>
@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     getMessages () {
-      axios.get("/api/messageList").then((result)=>{
+      axios.get("/blog/messages/").then((result)=>{
         let res = result.data
         this.messagesList = res.result
       })
@@ -95,13 +95,13 @@ export default {
     submit () {
       let reg = /^[\w_-]+@[\w_-]+\.[\w\\.]+$/
       if (!this.name || !this.email || !this.message) {
-        this.status = '怕是有什么没填哦'
+        this.status = '请填写所有信息'
         return
       } else if (!reg.test(this.email)) {
-        this.status = '邮箱格式不对呀'
+        this.status = '邮箱格式不对'
         return
       } else if (this.message.length > 500) {
-        this.status = '可不能这么长哦'
+        this.status = '有这么多话?'
         return
       } else if (/\d{7,}/i.test(this.message) || // 连续7个以上数字，过滤发Q号和Q群的评论
                 /(\d.*){7,}/i.test(this.message) || // 非连续的7个以上数字，过滤用字符间隔开的Q号和Q群的评论
@@ -109,20 +109,20 @@ export default {
                 /(\u9876.*){5,}/i.test(this.message) || // 过滤5个以上“顶”字的评论
                 /([\u4E00\u4E8C\u4E09\u56DB\u4E94\u516D\u4E03\u516B\u4E5D\u25CB\u58F9\u8D30\u53C1\u8086\u4F0D\u9646\u67D2\u634C\u7396\u96F6].*){7,}/i.test(this.message) // 过滤用汉字发Q号和Q群的评论
       ) {
-        this.status = '可不能发不好的东东哦'
+        this.status = '河蟹来了....'
         return
       }
       this.summitFlag = true
       localStorage.setItem('e-mail', this.email)
       localStorage.setItem('name', this.name)
-      axios.post("/api/messageSub", {
+      axios.post("/blog/messages", {
         "name": this.name,
         "email": this.email,
         "content": this.message
       }).then((result)=>{
           let res = result.data
-          if (res.status == "0") {
-            this.status = '留言成功喽'
+          if (res.status == "OK") {
+            this.status = '留言成功'
             this.getMessages()
           } else {
             this.status = '蜜汁错误'

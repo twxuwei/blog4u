@@ -6,7 +6,7 @@
     </div>
     <h2>{{item.title}}</h2>
     <p class="article-meta">{{item.nickname}}发布于 {{item.publishDate}} 阅读数{{item.pageView}}</p>
-    <div class="abstract" v-html="item.htmlContent">
+    <div class="abstract" v-html="item.summary">
     </div>
     <p class="more"><router-link :to="{ path:'/article', query:{articleId:item.id}}">阅读全文</router-link></p>
   </article>
