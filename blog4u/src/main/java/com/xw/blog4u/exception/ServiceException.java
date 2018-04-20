@@ -1,6 +1,6 @@
 package com.xw.blog4u.exception;
 
-import com.xw.blog4u.common.StatusEnum;
+import com.xw.blog4u.common.enums.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 

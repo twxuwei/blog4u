@@ -2,7 +2,7 @@ package com.xw.blog4u.common.utils;
 
 
 import com.xw.blog4u.common.CommResp;
-import com.xw.blog4u.common.StatusEnum;
+import com.xw.blog4u.common.enums.StatusEnum;
 
 /**
  * @author xw

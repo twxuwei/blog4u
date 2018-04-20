@@ -1,4 +1,4 @@
-package com.xw.blog4u.common;
+package com.xw.blog4u.common.enums;
 
 /**
  * @author xw

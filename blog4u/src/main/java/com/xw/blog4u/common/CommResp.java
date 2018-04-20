@@ -1,5 +1,6 @@
 package com.xw.blog4u.common;
 
+import com.xw.blog4u.common.enums.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
