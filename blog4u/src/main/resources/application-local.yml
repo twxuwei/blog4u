@@ -10,13 +10,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-images:
-  url: http://localhost:8081/blog/articles/img?filename=
-  path: F:/test/
 #  data:
 #      mongodb:
 #        uri:  mongodb://localhost:27017/visitor
-## Redis 配置(默认配置)
+# Redis 配置(默认配置)
 #  redis:
 #    # Redis 数据库索引（默认为0）
 #    database: 0
@@ -35,6 +32,8 @@ images:
 #      min-idle: 0
 #      # 连接池最大阻塞等待时间（使用负值表示没有限制）
 #      max-wait: -1
-#    # 设置连接超时
+#      # 设置连接超时
 #    timeout: 0
-#
+images:
+  url: http://localhost:8081/blog/articles/img?filename=
+  path: F:/test/

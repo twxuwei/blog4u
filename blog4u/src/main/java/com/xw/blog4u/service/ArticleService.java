@@ -13,6 +13,8 @@ import com.xw.blog4u.exception.ServiceException;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,6 +34,7 @@ import java.util.List;
  * @author xuwei
  * @date 2018/4/12
  */
+@CacheConfig(cacheNames = "article")
 @Service
 public class ArticleService {
     @Autowired
@@ -143,15 +146,17 @@ public class ArticleService {
 
     /**
      * 根据栏目名查找
+     *
      * @param page
      * @param count
      * @param categoryName
      * @return
      */
-    public List<Article> getPageableArticlesByCategory(int page, int count,String categoryName) {
+    @Cacheable(key = "'articles_'+#categoryName")
+    public List<Article> getPageableArticlesByCategory(int page, int count, String categoryName) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page - 1, count, sort);
-        List<Article> result = articleDao.findByStateAndCateName(pageable, 1,categoryName).getContent();
+        List<Article> result = articleDao.findByStateAndCateName(pageable, 1, categoryName).getContent();
         for (Article article : result) {
             article.setTags(tagDao.findByArticleId(article.getId()));
         }
@@ -160,9 +165,11 @@ public class ArticleService {
 
     /**
      * 展示给博客前端页面
+     *
      * @return
      */
-    public List<Article> getAllArticles(){
+    @Cacheable(key = "'articles'")
+    public List<Article> getAllArticles() {
         return articleDao.findAllByState(1);
     }
 
@@ -172,6 +179,7 @@ public class ArticleService {
      * @param id id
      * @return
      */
+    @Cacheable(key = "'articles_'+#id")
     public Article getOneArticle(String id) {
         Article article = articleDao.findById(id).get();
         article.setTags(tagDao.findByArticleId(id));
@@ -216,7 +224,7 @@ public class ArticleService {
             String filename = file.getOriginalFilename();
             Path path = Paths.get(filepath + filename);
             Files.write(path, bytes);
-            return url+filename;
+            return url + filename;
 
         } catch (Exception e) {
             throw new ServiceException("upload failed");
@@ -225,11 +233,12 @@ public class ArticleService {
 
     /**
      * 图片下载
+     *
      * @param filename
      * @param resp
      */
-    public void downloadFile(String filename,HttpServletResponse resp) {
-        File file = new File(filepath+filename);
+    public void downloadFile(String filename, HttpServletResponse resp) {
+        File file = new File(filepath + filename);
         resp.setHeader("content-type", "application/octet-stream");
         resp.setContentType("application/octet-stream");
         resp.setHeader("Content-Disposition", "attachment;filename=" + filename);
@@ -259,7 +268,7 @@ public class ArticleService {
 
     }
 
-    public List<Tag> getAllTags(){
+    public List<Tag> getAllTags() {
         return tagDao.findAll();
     }
 

@@ -1,11 +1,10 @@
 package com.xw.blog4u.exception;
 
 import com.xw.blog4u.common.CommResp;
-import com.xw.blog4u.common.StatusEnum;
+import com.xw.blog4u.common.enums.StatusEnum;
 import com.xw.blog4u.common.utils.CommRespUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
  */
 @Data
 @Entity
-public class Category {
+public class Category implements Serializable{
     @Id
     @GenericGenerator(name = "generator", strategy = "uuid")
     @GeneratedValue(generator = "generator")

@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 @Data
 @Entity
-public class Article {
+public class Article implements Serializable{
     @Id
     @GenericGenerator(name = "generator", strategy = "uuid")
     @GeneratedValue(generator = "generator")

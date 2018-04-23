@@ -4,6 +4,8 @@ import com.xw.blog4u.dao.CategoryDao;
 import com.xw.blog4u.entity.Category;
 import com.xw.blog4u.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -14,6 +16,7 @@ import java.util.Optional;
  * @author xuwei
  * @date 2018/4/12
  */
+@CacheConfig(cacheNames = "category")
 @Service
 public class CategoryService {
 
@@ -27,6 +30,7 @@ public class CategoryService {
      *
      * @return
      */
+    @Cacheable(key="'categories'")
     public List<Category> getAllCategories() {
         return categoryDao.findAll();
     }
