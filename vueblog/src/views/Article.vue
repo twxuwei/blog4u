@@ -102,7 +102,7 @@ body {
 
 .full-content h2 {
   margin: 0 20px 0 0;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -.03em;
@@ -136,8 +136,10 @@ body {
 
 .wysiwyg ul li{
   list-style-type: disc;
+  text-align: left
 }
 .wysiwyg ol li {
     list-style-type: decimal;
+  text-align: left
 }
 </style>
