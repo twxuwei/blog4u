@@ -15,6 +15,7 @@
           </li>
           <li class="menu-item"><router-link to="/messages"><i class="fa fa-comment"></i>留言</router-link></li>
           <li class="menu-item"><router-link to="/about"><i class="fa fa-user"></i>关于</router-link></li>
+          <li class="menu-item"><router-link to="/"><i class="fa fa-user"></i>登录</router-link></li>
         </ul>
       </div>
     </nav>

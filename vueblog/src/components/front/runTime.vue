@@ -1,6 +1,6 @@
 <template lang="html">
-  <p>已默默运行了
-    <span>{{moment}}</span>
+  <p>Since 2018.4.19
+    <!--<span>{{moment}}</span>-->
   </p>
 </template>
 
@@ -14,15 +14,15 @@ export default {
   props: {
     originalYear: {
       type: Number,
-      default: 2017
+      default: 2018
     },
     originalMonth: {
       type: Number,
-      default: 7
+      default: 4
     },
     originalDate: {
       type: Number,
-      default: 1
+      default: 19
     },
     originalHour: {
       type: Number,

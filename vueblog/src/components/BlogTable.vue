@@ -38,8 +38,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="最近编辑时间" width="140" align="left">
-        <template slot-scope="scope">{{ scope.row.editTime | formatDateTime}}</template>
+        label="最近编辑时间" width="200" align="left">
+        <template slot-scope="scope">{{ scope.row.editTime}}</template>
       </el-table-column>
       <el-table-column
         prop="nickname"
@@ -133,6 +133,7 @@
         var _this = this;
         var url = '';
         url = "/articles/" + page + "/" + count;
+        // console.log(this.state)
         getRequest(url).then(resp => {
           _this.loading = false;
           if (resp.status == 200) {

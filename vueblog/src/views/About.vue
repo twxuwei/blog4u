@@ -15,10 +15,10 @@
             <div class="messages-text post-content">
               <div style="height: 600px;">
                 <h2 style="margin-bottom: 20px;">About</h2>
-                <strong>爸爸的个人博客</strong>
+                <strong>KingBob's blog.</strong>
                 <br>
                 <p style="margin-bottom: 20px;padding-top: 20px;">
-                  github地址 : <a href="https://github.com/cylover945/blog4u">https://github.com/cylover945/blog4u</a>
+                  Github Address: <a href="https://github.com/cylover945/blog4u">https://github.com/cylover945/blog4u</a>
                 </p>
                 <img src="/blog/articles/img?filename=totoro.jpg" alt="多多咯">
               </div>
