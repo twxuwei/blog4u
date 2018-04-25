@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author xw
@@ -11,7 +12,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-public class Tag {
+public class Tag implements Serializable{
     @Id
     @GenericGenerator(name = "generator", strategy = "uuid")
     @GeneratedValue(generator = "generator")

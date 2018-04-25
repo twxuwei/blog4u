@@ -152,7 +152,7 @@ public class ArticleService {
      * @param categoryName
      * @return
      */
-    @Cacheable(key = "'articles_'+#categoryName")
+    @Cacheable
     public List<Article> getPageableArticlesByCategory(int page, int count, String categoryName) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page - 1, count, sort);
@@ -168,7 +168,7 @@ public class ArticleService {
      *
      * @return
      */
-    @Cacheable(key = "'articles'")
+    @Cacheable
     public List<Article> getAllArticles() {
         return articleDao.findAllByState(1);
     }
@@ -179,7 +179,7 @@ public class ArticleService {
      * @param id id
      * @return
      */
-    @Cacheable(key = "'articles_'+#id")
+    @Cacheable
     public Article getOneArticle(String id) {
         Article article = articleDao.findById(id).get();
         article.setTags(tagDao.findByArticleId(id));

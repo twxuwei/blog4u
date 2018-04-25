@@ -30,7 +30,7 @@ public class CategoryService {
      *
      * @return
      */
-    @Cacheable(key="'categories'")
+    @Cacheable
     public List<Category> getAllCategories() {
         return categoryDao.findAll();
     }

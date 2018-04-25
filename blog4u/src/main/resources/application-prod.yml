@@ -32,6 +32,8 @@ spring:
       max-wait: -1
         # 设置连接超时
     timeout: 5000
+  cache:
+    type: redis
 images:
   url: http://47.98.217.105:8081/blog/articles/img?filename=
   path: /usr/lib/jvm/images/
