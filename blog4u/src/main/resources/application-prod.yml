@@ -34,6 +34,8 @@ spring:
     timeout: 5000
   cache:
     type: redis
+    redis:
+      time-to-live: 60000
 images:
   url: http://47.98.217.105:8081/blog/articles/img?filename=
   path: /usr/lib/jvm/images/

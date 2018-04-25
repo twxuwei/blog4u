@@ -29,6 +29,9 @@ public class UserService {
     }
 
     public boolean isAdmin() {
+        if (SecurityUtils.getSubject().getPrincipal() == null) {
+            return false;
+        }
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         User user = findByUsername(username);
         for (Role role : user.getRoles()) {

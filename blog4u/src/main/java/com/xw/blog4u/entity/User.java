@@ -33,7 +33,7 @@ public class User {
     private boolean enabled;
     private String email;
     private String userFace;
-    private Timestamp regTime;
+    private String regTime;
 
     @JsonIgnoreProperties(value = { "users" })
     @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中进行加载数据;

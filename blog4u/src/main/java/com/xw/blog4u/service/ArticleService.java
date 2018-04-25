@@ -27,7 +27,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -73,13 +74,13 @@ public class ArticleService {
             String stripHtml = stripHtml(req.getHtmlContent());
             article.setSummary(stripHtml.substring(0, stripHtml.length() > 50 ? 50 : stripHtml.length()));
         }
-        //添加操作
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        //添加操作 使用JDK1.8时间API
+        String date = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss").format(LocalDateTime.now());
         if (req.getState() == 1) {
             //设置发表日期
-            article.setPublishDate(timestamp);
+            article.setPublishDate(date);
         }
-        article.setEditTime(timestamp);
+        article.setEditTime(date);
         //设置当前用户
         String username = SecurityUtils.getSubject().getPrincipal().toString();
         User user = userDao.findByUsername(username);

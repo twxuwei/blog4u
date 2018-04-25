@@ -9,6 +9,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +78,7 @@ public class CategoryService {
         }
         Category category = new Category();
         category.setCateName(name);
-        category.setDate(new Timestamp(System.currentTimeMillis()));
+        category.setDate(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss").format(LocalDateTime.now()));
         categoryDao.save(category);
         return "success";
     }
@@ -95,7 +97,7 @@ public class CategoryService {
         Optional<Category> optionalCategory = categoryDao.findById(id);
         Category category = optionalCategory.get();
         category.setCateName(name);
-        category.setDate(new Timestamp(System.currentTimeMillis()));
+        category.setDate(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss").format(LocalDateTime.now()));
         categoryDao.save(category);
         return "success";
     }

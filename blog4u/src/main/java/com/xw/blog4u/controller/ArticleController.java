@@ -1,6 +1,8 @@
 package com.xw.blog4u.controller;
 
 import com.xw.blog4u.common.CommResp;
+import com.xw.blog4u.common.annotations.Permission;
+import com.xw.blog4u.common.enums.RoleEnum;
 import com.xw.blog4u.common.reqs.ArticleReq;
 import com.xw.blog4u.common.utils.CommRespUtil;
 import com.xw.blog4u.service.ArticleService;
@@ -26,6 +28,7 @@ public class ArticleController {
 
     @PostMapping("/")
     @ApiOperation(value = "add an article")
+    @Permission(permission = RoleEnum.ADMIN)
     public CommResp add(@RequestBody ArticleReq req) {
         return CommRespUtil.responseOk(articleService.add(req));
     }
@@ -61,7 +64,8 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}")
-    @ApiOperation(value = "update an article")
+    @ApiOperation(value = "delete an article")
+    @Permission(permission = RoleEnum.ADMIN)
     public CommResp deleteArticle(@PathVariable String id) {
         return CommRespUtil.responseOk(articleService.deleteArticle(id));
     }

@@ -51,7 +51,7 @@ public class Article implements Serializable{
     /**
      * 发布时间
      */
-    private Timestamp publishDate;
+    private String publishDate;
     /**
      * 状态 0表示草稿箱，1表示已发表，2表示已删除
      */
@@ -60,7 +60,7 @@ public class Article implements Serializable{
     /**
      * 编辑时间
      */
-    private Timestamp editTime;
+    private String editTime;
     private String[] dynamicTags;
     private String nickname;
     private String cateName;

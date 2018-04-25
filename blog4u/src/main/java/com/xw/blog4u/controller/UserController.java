@@ -1,6 +1,8 @@
 package com.xw.blog4u.controller;
 
 import com.xw.blog4u.common.CommResp;
+import com.xw.blog4u.common.annotations.Permission;
+import com.xw.blog4u.common.enums.RoleEnum;
 import com.xw.blog4u.common.utils.CommRespUtil;
 import com.xw.blog4u.entity.User;
 import com.xw.blog4u.service.UserService;
@@ -66,12 +68,14 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "change a user state.")
+    @Permission(permission = RoleEnum.ADMIN)
     public CommResp enabledRole(@PathVariable String id){
         return CommRespUtil.responseOk(userService.enabledRole(id));
     }
 
     @PutMapping("/{id}/role")
     @ApiOperation(value = "change user's role")
+    @Permission(permission = RoleEnum.ADMIN)
     public CommResp updateRole(@PathVariable String id,@RequestBody String[] rids){
         return CommRespUtil.responseOk(userService.updateRole(id,rids));
     }

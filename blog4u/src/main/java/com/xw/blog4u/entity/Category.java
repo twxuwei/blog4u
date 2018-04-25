@@ -22,5 +22,5 @@ public class Category implements Serializable{
     @GeneratedValue(generator = "generator")
     private String id;
     private String cateName;
-    private Timestamp date;
+    private String date;
 }

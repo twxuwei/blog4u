@@ -53,7 +53,7 @@ public class CommHandler {
         HttpServletRequest request = attributes.getRequest();
 
         //权限校验
-//        verify(joinPoint, request);
+        verify(joinPoint, request);
 
         //获取请求方式
         String method = request.getMethod();
@@ -89,17 +89,21 @@ public class CommHandler {
      * @param joinPoint 当前切点信息
      * @param request   请求信息
      */
-//    private void verify(ProceedingJoinPoint joinPoint, HttpServletRequest request) {
-//        //获取访问目标方法
-//        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-//        Method targetMethod = methodSignature.getMethod();
-//
-//        //获得被注解方法的权限
-//        RoleEnum role = AnnotationParse.privilegeParse(targetMethod);
-//        if (role == null) {
-//            //不需要权限校验
-//            return;
-//        }
+    private void verify(ProceedingJoinPoint joinPoint, HttpServletRequest request) {
+        //获取访问目标方法
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method targetMethod = methodSignature.getMethod();
+        //获得被注解方法的权限
+        RoleEnum role = AnnotationParse.privilegeParse(targetMethod);
+        if (role == null) {
+            //不需要权限校验
+            return;
+        }
+        if (userService.isAdmin()) {
+            return;
+        }else{
+            throw new ServiceException("Permission denied.");
+        }
 //        //获取权限校验token
 //        String token = request.getHeader("Admin-Auth-Token");
 //        if ("".equals(token) || null == token) {
@@ -113,5 +117,5 @@ public class CommHandler {
 //        if(! role.getName().equals(currentRole)){
 //            throw new ServiceException("Permission denied.");
 //        }
-//    }
+    }
 }
