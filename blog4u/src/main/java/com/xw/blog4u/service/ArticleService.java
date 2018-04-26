@@ -63,8 +63,12 @@ public class ArticleService {
      */
     public String add(ArticleReq req) {
         Article article;
+        //添加操作 使用JDK1.8时间API
+        String date = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss").format(LocalDateTime.now());
         if (!articleDao.findById(req.getId()).isPresent()) {
             article = new Article();
+            //设置发表日期
+            article.setPublishDate(date);
         } else {
             article = articleDao.findById(req.getId()).get();
         }
@@ -73,12 +77,6 @@ public class ArticleService {
             //直接截取
             String stripHtml = stripHtml(req.getHtmlContent());
             article.setSummary(stripHtml.substring(0, stripHtml.length() > 50 ? 50 : stripHtml.length()));
-        }
-        //添加操作 使用JDK1.8时间API
-        String date = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss").format(LocalDateTime.now());
-        if (req.getState() == 1) {
-            //设置发表日期
-            article.setPublishDate(date);
         }
         article.setEditTime(date);
         //设置当前用户
