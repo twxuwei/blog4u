@@ -37,7 +37,7 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //注意过滤器配置顺序 不能颠倒  LinkedHashMap有序
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了，登出后跳转配置的loginUrl
-        filterChainDefinitionMap.put("/logout", "logout");
+//        filterChainDefinitionMap.put("/logout", "logout");
         // 配置不会被拦截的链接 顺序判断
         //swagger配置在前面，否则会被shiro拦截掉
         filterChainDefinitionMap.put("/articles/img","anon");

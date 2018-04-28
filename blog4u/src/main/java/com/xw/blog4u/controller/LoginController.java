@@ -22,11 +22,11 @@ public class LoginController {
         subject.login(token);
         //设置超时时间3分钟
         subject.getSession().setTimeout(3 * 60 * 1000);
-        
+
         return CommRespUtil.responseOk(subject.getSession().getId());
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public CommResp logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
