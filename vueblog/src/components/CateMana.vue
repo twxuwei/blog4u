@@ -31,7 +31,7 @@
         <el-table-column
           prop="date"
           label="启用时间" align="left">
-          <template slot-scope="scope">{{ scope.row.date | formatDate}}</template>
+          <template slot-scope="scope">{{ scope.row.date}}</template>
         </el-table-column>
         <el-table-column label="操作" align="left">
           <template slot-scope="scope">

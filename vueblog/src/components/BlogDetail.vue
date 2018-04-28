@@ -13,7 +13,7 @@
             {{article.nickname}}
           </div>
           <span style="color: #20a0ff;margin-right:20px;font-size: 12px;">浏览 {{article.pageView==null?0:article.pageView}}</span>
-          <span style="color: #20a0ff;margin-right:20px;font-size: 12px;"> {{article.editTime | formatDateTime}}</span>
+          <span style="color: #20a0ff;margin-right:20px;font-size: 12px;"> {{article.editTime}}</span>
           <el-tag type="success" v-for="(item,index) in article.tags" :key="index" size="small"
                   style="margin-left: 8px">{{item.tagName}}
           </el-tag>

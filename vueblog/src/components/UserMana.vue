@@ -27,7 +27,7 @@
             <span>电子邮箱:</span><span>{{user.email}}</span>
           </div>
           <div style="text-align: left;color:#20a0ff;font-size: 12px;margin-top: 13px">
-            <span>注册时间:</span><span>{{user.regTime | formatDateTime}}</span>
+            <span>注册时间:</span><span>{{user.regTime}}</span>
           </div>
           <div
             style="text-align: left;color:#20a0ff;font-size: 12px;margin-top: 13px;display: flex;align-items: center">

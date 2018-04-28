@@ -94,7 +94,7 @@
         loading: false,
         currentPage: 1,
         totalCount: -1,
-        pageSize: 6,
+        pageSize: 10,
         keywords: '',
         dustbinData: []
       }
@@ -134,24 +134,47 @@
         var url = '';
         url = "/articles/" + page + "/" + count;
         // console.log(this.state)
-        getRequest(url).then(resp => {
-          _this.loading = false;
-          if (resp.status == 200) {
-            var json = resp.data;
-            _this.articles = json.result;
-            _this.totalCount = json.result.length;
-          } else {
-            _this.$message({type: 'error', message: '数据加载失败1!'});
-          }
-        }, resp => {
-          _this.loading = false;
-          if (resp.status == 302) {
-            _this.$router.replace({path: '/'});
-            _this.$message({type: 'error', message: resp.response.data});
-          } else {
-            _this.$router.replace({path: '/'});
-          }
-        })
+        if(this.state == 1){
+          getRequest(url).then(resp => {
+            _this.loading = false;
+            if (resp.status == 200) {
+              var json = resp.data;
+              _this.articles = json.result;
+              _this.totalCount = json.result.length;
+            } else {
+              _this.$message({type: 'error', message: '数据加载失败1!'});
+            }
+          }, resp => {
+            _this.loading = false;
+            if (resp.status == 302) {
+              _this.$router.replace({path: '/'});
+              _this.$message({type: 'error', message: resp.response.data});
+            } else {
+              _this.$router.replace({path: '/'});
+            }
+          })
+        }
+        if(this.state == -1){
+          getRequest("/articles/view").then(resp => {
+            _this.loading = false;
+            if (resp.status == 200) {
+              var json = resp.data;
+              _this.articles = json.result;
+              _this.totalCount = json.result.length;
+            } else {
+              _this.$message({type: 'error', message: '数据加载失败1!'});
+            }
+          }, resp => {
+            _this.loading = false;
+            if (resp.status == 302) {
+              _this.$router.replace({path: '/'});
+              _this.$message({type: 'error', message: resp.response.data});
+            } else {
+              _this.$router.replace({path: '/'});
+            }
+          })
+        }
+
       },
       handleSelectionChange(val) {
         this.selItems = val;

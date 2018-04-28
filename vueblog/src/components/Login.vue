@@ -20,13 +20,13 @@
     data(){
       return {
         rules: {
-          account: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-          checkPass: [{required: true, message: '请输入密码', trigger: 'blur'}]
+          account: [{required: false, message: '请输入用户名', trigger: 'blur'}],
+          checkPass: [{required: false, message: '请输入密码', trigger: 'blur'}]
         },
         checked: true,
         loginForm: {
-          username: 'test',
-          password: '123456'
+          username: '',
+          password: ''
         },
         loading: false
       }
