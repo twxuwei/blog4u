@@ -1,16 +1,17 @@
 package com.xw.blog4u.service;
 
+import com.mongodb.AggregationOutput;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.MongoCursor;
 import com.xw.blog4u.common.reqs.ArticleReq;
-import com.xw.blog4u.dao.ArticleDao;
-import com.xw.blog4u.dao.CategoryDao;
-import com.xw.blog4u.dao.TagDao;
-import com.xw.blog4u.dao.UserDao;
-import com.xw.blog4u.entity.Article;
-import com.xw.blog4u.entity.Category;
-import com.xw.blog4u.entity.Tag;
-import com.xw.blog4u.entity.User;
+import com.xw.blog4u.common.resp.PageViewResp;
+import com.xw.blog4u.dao.*;
+import com.xw.blog4u.entity.*;
 import com.xw.blog4u.exception.ServiceException;
 import org.apache.shiro.SecurityUtils;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
@@ -18,6 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +49,8 @@ public class ArticleService {
     private CategoryDao categoryDao;
     @Autowired
     private TagDao tagDao;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Value("${images.url}")
     private String url;
@@ -133,6 +138,7 @@ public class ArticleService {
      * @param count 数量
      * @return
      */
+    @Cacheable
     public List<Article> getPageableArticles(int page, int count) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page - 1, count, sort);
@@ -269,6 +275,50 @@ public class ArticleService {
 
     public List<Tag> getAllTags() {
         return tagDao.findAll();
+    }
+
+    /**
+     * db.visitor.aggregate([
+     * {$group:{_id:"$date",count:{$sum:1}}},
+     * {$sort:{_id:-1}},
+     * {$limit:7}
+     * ])
+     * pv获取
+     *
+     * @return
+     */
+    public PageViewResp getPageView() {
+        //group
+        BasicDBObject groupFields = new BasicDBObject("_id", "$date");
+        groupFields.put("count", new BasicDBObject("$sum", 1));
+        BasicDBObject group = new BasicDBObject("$group", groupFields);
+
+        //sort
+        BasicDBObject sort = new BasicDBObject("$sort", new BasicDBObject("_id", 1));
+
+        //limit
+        BasicDBObject limit = new BasicDBObject("$limit", 7);
+
+        List<BasicDBObject> objects = new ArrayList<>();
+        objects.add(group);
+        objects.add(sort);
+        objects.add(limit);
+        //aggregate
+        AggregateIterable<Document> visitor = mongoTemplate.getCollection("visitor").aggregate(objects);
+
+        List<String> dates = new ArrayList<>();
+        List<Integer> counts = new ArrayList<>();
+        //处理结果
+        MongoCursor<Document> iterator = visitor.iterator();
+        while (iterator.hasNext()) {
+            Document document = iterator.next();
+            dates.add(document.get("_id").toString());
+            counts.add(Integer.parseInt(document.get("count").toString()));
+        }
+        PageViewResp resp = new PageViewResp();
+        resp.setCounts(counts);
+        resp.setDates(dates);
+        return resp;
     }
 
 }

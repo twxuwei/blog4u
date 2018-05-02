@@ -18,13 +18,7 @@ public class Visitor {
 
     private String host;
 
-    private String method;
-
-    private String uri;
-
-    private String requestTime;
-
-    private long timeCost;
-
     private String username;
+
+    private String date;
 }

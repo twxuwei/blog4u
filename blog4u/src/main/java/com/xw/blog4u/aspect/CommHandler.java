@@ -41,6 +41,8 @@ public class CommHandler {
     @Autowired
     private UserService userService;
 
+    private final static String KEY_WORDS = "/1/10";
+
     @Pointcut("execution(public * com.xw.blog4u.controller.*.*(..))")
     public void controller() {
 
@@ -58,28 +60,30 @@ public class CommHandler {
         //获取请求方式
         String method = request.getMethod();
         String url = request.getRequestURI();
-        String ip = request.getRemoteAddr();
+
+        //获取nginx转发后真实的ip地址
+        String ip = request.getHeader("x-real-ip");
         long startTime = System.currentTimeMillis();
+
+        //访问统计
+        if (url.contains(KEY_WORDS)) {
+            Visitor visitor = new Visitor();
+            visitor.setHost(ip);
+            visitor.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date(startTime)));
+            if (null != SecurityUtils.getSubject().getPrincipal()) {
+                visitor.setUsername(SecurityUtils.getSubject().getPrincipal().toString());
+            } else {
+                visitor.setUsername("visitor");
+            }
+            visitorDao.save(visitor);
+        }
 
         log.info("request method: " + method + "  request ip: " + ip + "  request url: " + url + "  request start");
         CommResp commResp = (CommResp) joinPoint.proceed();
         long timeCost = System.currentTimeMillis() - startTime;
         log.info("request method: " + method + "  request ip: " + ip + "  request url: " + url + "  time consuming: " + timeCost + "ms");
 
-        //访问统计
-        Visitor visitor = new Visitor();
-        visitor.setHost(ip);
-        visitor.setMethod(method);
-        visitor.setUri(url);
-        visitor.setRequestTime(new SimpleDateFormat("yyyy MM:dd HH:mm:ss").format(new Date(startTime)));
-        visitor.setTimeCost(timeCost);
-        if (null != SecurityUtils.getSubject().getPrincipal()) {
-            visitor.setUsername(SecurityUtils.getSubject().getPrincipal().toString());
-        } else {
-            visitor.setUsername("visitor");
-        }
 
-        visitorDao.save(visitor);
         return commResp;
     }
 
@@ -101,7 +105,7 @@ public class CommHandler {
         }
         if (userService.isAdmin()) {
             return;
-        }else{
+        } else {
             throw new ServiceException("Permission denied.");
         }
 //        //获取权限校验token

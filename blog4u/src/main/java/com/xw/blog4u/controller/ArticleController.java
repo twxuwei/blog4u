@@ -86,4 +86,9 @@ public class ArticleController {
         return CommRespUtil.responseOk(articleService.getAllTags());
     }
 
+    @GetMapping(value = "/pvs")
+    public CommResp getPageViews() {
+        return CommRespUtil.responseOk(articleService.getPageView());
+    }
+
 }

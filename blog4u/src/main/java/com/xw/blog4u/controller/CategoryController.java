@@ -22,7 +22,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/")
-    @ApiOperation(value = "get all categories")
+    @ApiOperation(value = "get all dates")
     public CommResp getAllCategories() {
         return CommRespUtil.responseOk(categoryService.getAllCategories());
     }
