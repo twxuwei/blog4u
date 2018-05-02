@@ -26,10 +26,10 @@
     },
     mounted: function () {
       var _this = this;
-      getRequest("/categories/").then(resp=> {
+      getRequest("/articles/pvs").then(resp=> {
         if (resp.status == 200) {
-          _this.$refs.dschart.options.xAxis.data = resp.data.result;
-          _this.$refs.dschart.options.series[0].data = resp.data.ds;
+          _this.$refs.dschart.options.xAxis.data = resp.data.result.dates;
+          _this.$refs.dschart.options.series[0].data = resp.data.result.counts;
         } else {
           _this.$message({type: 'error', message: '数据加载失败!'});
         }
