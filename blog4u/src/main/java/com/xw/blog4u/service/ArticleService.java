@@ -32,6 +32,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -145,6 +146,8 @@ public class ArticleService {
         List<Article> result = articleDao.findByState(pageable, 1).getContent();
         for (Article article : result) {
             article.setTags(tagDao.findByArticleId(article.getId()));
+            article.setHtmlContent("");
+            article.setMdContent("");
         }
         return result;
     }
@@ -164,6 +167,8 @@ public class ArticleService {
         List<Article> result = articleDao.findByStateAndCateName(pageable, 1, categoryName).getContent();
         for (Article article : result) {
             article.setTags(tagDao.findByArticleId(article.getId()));
+            article.setHtmlContent("");
+            article.setMdContent("");
         }
         return result;
     }
@@ -189,8 +194,11 @@ public class ArticleService {
         Article article = articleDao.findById(id).get();
         article.setTags(tagDao.findByArticleId(id));
         article.setPageView(article.getPageView() + 1);
-        articleDao.save(article);
-        return article;
+        Article result = articleDao.save(article);
+        result.setMdContent("");
+        result.setUserId("");
+        result.setSummary("");
+        return result;
     }
 
     /**
@@ -294,7 +302,7 @@ public class ArticleService {
         BasicDBObject group = new BasicDBObject("$group", groupFields);
 
         //sort
-        BasicDBObject sort = new BasicDBObject("$sort", new BasicDBObject("_id", 1));
+        BasicDBObject sort = new BasicDBObject("$sort", new BasicDBObject("_id", -1));
 
         //limit
         BasicDBObject limit = new BasicDBObject("$limit", 7);
@@ -316,6 +324,8 @@ public class ArticleService {
             counts.add(Integer.parseInt(document.get("count").toString()));
         }
         PageViewResp resp = new PageViewResp();
+        Collections.reverse(counts);
+        Collections.reverse(dates);
         resp.setCounts(counts);
         resp.setDates(dates);
         return resp;
